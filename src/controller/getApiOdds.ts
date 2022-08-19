@@ -28,6 +28,7 @@ async function getApiOdds(league: number) {
         async (odd: ISoccer) => {
           const oddFormat = {
             hour: odd.Horario,
+            minute: odd.Minuto,
             categoryName: categories[league],
             winner: odd.Vencedor_HT_FT.split(" ")[2],
             firstTimeScoring:
