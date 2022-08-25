@@ -24,10 +24,12 @@ async function getApiOdds(league: number) {
     )
 
     .then((response) => {
-      response.data.Linhas[0].Colunas.filter((odd: ISoccer) => odd.Horario).map(
+      const oddHour = response.data.Linhas[0].Hora;
+
+      response.data.Linhas[0].Colunas.map(
         async (odd: ISoccer) => {
           const oddFormat = {
-            odd_hour: odd.Hora,
+            odd_hour: odd.Hora ? odd.Hora : oddHour,
             hour: odd.Horario,
             minute: odd.Minuto,
             categoryName: categories[league],
