@@ -26,7 +26,7 @@ async function getApiOdds(league: number) {
     .then((response) => {
       const oddHour = response.data.Linhas[0].Hora;
 
-      response.data.Linhas[0].Colunas.map(
+      response.data.Linhas[0].Colunas.filter((odd: ISoccer) => odd.Horario).map(
         async (odd: ISoccer) => {
           const oddFormat = {
             odd_hour: odd.Hora ? odd.Hora : oddHour,
@@ -107,6 +107,20 @@ async function getApiOdds(league: number) {
                   ? true
                   : false,
             },
+          };
+
+          await redisConnection.publish(categories[league], JSON.stringify(oddFormat))
+          .then(e => console.log(odd.Horario))
+          .catch(err => console.error(err));
+        }
+      );
+
+      response.data.Linhas[0].Colunas.filter((odd: ISoccer) => !odd.Horario).map(
+        async (odd: ISoccer) => {
+          const oddFormat = {
+            odd_hour: oddHour,
+            minute: odd.Minuto,
+            categoryName: categories[league],
           };
 
           await redisConnection.publish(categories[league], JSON.stringify(oddFormat))
