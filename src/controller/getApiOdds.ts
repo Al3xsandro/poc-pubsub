@@ -121,6 +121,7 @@ async function getApiOdds(league: number) {
             odd_hour: oddHour,
             minute: odd.Minuto,
             categoryName: categories[league],
+            league
           };
 
           await redisConnection.publish(categories[league], JSON.stringify(oddFormat))
