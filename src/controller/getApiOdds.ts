@@ -109,29 +109,12 @@ async function getApiOdds(league: number) {
             },
           };
 
-          await redisConnection.publish(categories[league], JSON.stringify(oddFormat))
-          .then(e => console.log(odd.Horario))
-          .catch(err => console.error(err));
+          await redisConnection
+            .publish(categories[league], JSON.stringify(oddFormat))
+            .then((e) => console.log(odd.Horario))
+            .catch((err) => console.error(err));
         }
       );
-
-      response.data.Linhas[0].Colunas.filter((odd: ISoccer) => !odd.Horario).map(
-        async (odd: ISoccer) => {
-          const oddFormat = {
-            odd_hour: oddHour,
-            minute: odd.Minuto,
-            categoryName: categories[league],
-            league
-          };
-
-          await redisConnection.publish(categories[league], JSON.stringify(oddFormat))
-          .then(e => console.log(odd.Horario))
-          .catch(err => console.error(err));
-        }
-      );
-    })
-    .catch((err) => {
-      console.error(err);
     });
 }
 
