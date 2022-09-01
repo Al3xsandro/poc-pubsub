@@ -10,7 +10,7 @@ const categories: Record<number, string> = {
   4: "Superleague",
 };
 
-async function getApiOdds(league: number) {
+async function getApiOdds(league: number, line: number) {
   await axios
     .get(
       `${process.env.BBTIPS_API}/api/futebolvirtual?liga=${league}&futuro=false&Horas=Horas3&tipoOdd=` ||
@@ -24,9 +24,9 @@ async function getApiOdds(league: number) {
     )
 
     .then((response) => {
-      const oddHour = response.data.Linhas[0].Hora;
+      const oddHour = response.data.Linhas[line].Hora;
 
-      response.data.Linhas[0].Colunas.filter((odd: ISoccer) => odd.Horario).map(
+      response.data.Linhas[line].Colunas.filter((odd: ISoccer) => odd.Horario).map(
         async (odd: ISoccer) => {
           const oddFormat = {
             odd_hour: odd.Hora ? odd.Hora : oddHour,
@@ -111,10 +111,13 @@ async function getApiOdds(league: number) {
 
           await redisConnection
             .publish(categories[league], JSON.stringify(oddFormat))
-            .then((e) => console.log(odd.Horario))
+            .then(() => console.log(odd.Horario))
             .catch((err) => console.error(err));
         }
       );
+    })
+    .catch((err) => {
+      console.error(err);
     });
 }
 
