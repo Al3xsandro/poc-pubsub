@@ -7,7 +7,7 @@ import "./redis/redis";
 import { getApiOdds } from "./controller/getApiOdds";
 
 Cron.job(
-  "*/3 * * * *",
+  "*/2 * * * *",
   async () => {
     console.log("[Info] reset soccer");
     await getApiOdds(1, 0);
@@ -32,4 +32,4 @@ Cron.job(
   null,
   true,
   "America/Sao_Paulo"
-)
+);
