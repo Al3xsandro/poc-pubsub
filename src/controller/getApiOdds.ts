@@ -13,7 +13,7 @@ const categories: Record<number, string> = {
 async function getApiOdds(league: number, line: number) {
   await axios
     .get(
-      `${process.env.BBTIPS_API}/api/futebolvirtual?liga=${league}&futuro=false&Horas=Horas24&tipoOdd=` ||
+      `${process.env.BBTIPS_API}/api/futebolvirtual?liga=${league}&futuro=false&Horas=Horas3&tipoOdd=` ||
         "",
       {
         headers: {
